@@ -19,7 +19,7 @@
         </text>
         <tool_bar_id>a18630e5-6e2b-4657-a77b-6f197768ce46</tool_bar_id>
       </tool_bar_group_item>
-      <dock_bar_info dpi_scale="150" dock_bar="False" docking="True" horz="False" visible="True" floating="True" mru_float_style="8192" bar_id="59483" mru_width="868" point_pos="-2,-2" float_point="557,-1410" rect_mru_dock_pos="0,0,0,0" dock_location_u="59420" dock_location="left" float_size="1293,87" />
+      <dock_bar_info dpi_scale="150" dock_bar="False" docking="True" horz="False" visible="False" floating="True" mru_float_style="8192" bar_id="59489" mru_width="868" point_pos="-2,-2" float_point="557,-1410" rect_mru_dock_pos="0,0,0,0" dock_location_u="59420" dock_location="left" float_size="1293,87" />
     </tool_bar_group>
   </tool_bar_groups>
   <tool_bars>
