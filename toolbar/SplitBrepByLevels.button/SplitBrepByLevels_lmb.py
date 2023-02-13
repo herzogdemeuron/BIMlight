@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.calculate.SplitBrepByLevels()
+bimlight.calculate.SplitBrepByLevels()
+bimlight.Log('Split Brep by Levels')

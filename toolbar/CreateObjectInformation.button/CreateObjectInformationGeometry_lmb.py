@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.calculate.CreateObjectInformation(True)
+bimlight.calculate.CreateObjectInformation(True)
+bimlight.Log('Create Object Information and Display')

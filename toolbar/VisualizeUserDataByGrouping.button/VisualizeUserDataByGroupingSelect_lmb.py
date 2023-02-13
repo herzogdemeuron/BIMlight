@@ -1,3 +1,4 @@
-import hdmrhino as hdm
+import bimlight
 
-hdm.visualize.VisualizeUserDataByGrouping(True)
+bimlight.visualize.VisualizeUserDataByGrouping(True)
+bimlight.Log('Visualize User Data by Grouping Select')

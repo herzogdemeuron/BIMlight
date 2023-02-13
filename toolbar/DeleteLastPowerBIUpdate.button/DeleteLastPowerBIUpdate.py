@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.powerbi.DeleteLastPowerBIUpdate()
+bimlight.powerbi.DeleteLastPowerBIUpdate()
+bimlight.Log('Delete Last PowerBI Update')

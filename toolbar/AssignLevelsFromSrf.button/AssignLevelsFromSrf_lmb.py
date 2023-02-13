@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.calculate.AssignLevelsFromSrf()
+bimlight.calculate.AssignLevelsFromSrf()
+bimlight.Log('Assign Levels From Srf')

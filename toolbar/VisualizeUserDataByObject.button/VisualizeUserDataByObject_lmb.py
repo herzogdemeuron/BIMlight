@@ -1,3 +1,4 @@
-import hdmrhino as hdm
+import bimlight
 
-hdm.visualize.VisualizeUserDataByObject()
+bimlight.visualize.VisualizeUserDataByObject()
+bimlight.Log('Visualize User Data by Object')

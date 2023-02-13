@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.visualize.VisualizeUserDataBySum()
+bimlight.visualize.VisualizeUserDataBySum()
+bimlight.Log('Visualize User Data by Sum')

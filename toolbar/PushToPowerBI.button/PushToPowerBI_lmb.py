@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.powerbi.PushToPowerBI()
+bimlight.powerbi.PushToPowerBI()
+bimlight.Log('Push to PowerBI')

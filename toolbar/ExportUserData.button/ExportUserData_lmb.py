@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.export.ExportUserData()
+bimlight.export.ExportUserData()
+bimlight.Log('Export User Data')

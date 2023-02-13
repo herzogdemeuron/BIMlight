@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.grouping.SaveGroupingAs()
+bimlight.grouping.SaveGroupingAs()
+bimlight.Log('Save Grouping As')

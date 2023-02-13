@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.grouping.RenameGroup()
+bimlight.grouping.RenameGroup()
+bimlight.Log('Rename Grouping')

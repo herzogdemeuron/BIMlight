@@ -1,5 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-
-hdm.settings.SettingsBimLight()
+bimlight.settings.SettingsBimLight()
+bimlight.Log('Settings Bimlight')

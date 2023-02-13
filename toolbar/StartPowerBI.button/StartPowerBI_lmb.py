@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.powerbi.StartPowerBI()
+bimlight.powerbi.StartPowerBI()
+bimlight.Log('Start PowerBI')

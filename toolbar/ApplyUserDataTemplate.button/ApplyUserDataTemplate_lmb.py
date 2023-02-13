@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.ApplyUserDataJsonTemplate()
+bimlight.ApplyUserDataJsonTemplate()
+bimlight.Log('Apply User Data Json Template')

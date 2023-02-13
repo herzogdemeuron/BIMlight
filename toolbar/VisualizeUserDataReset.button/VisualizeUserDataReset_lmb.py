@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.visualize.VisualizeUserDataReset()
+bimlight.visualize.VisualizeUserDataReset()
+bimlight.Log('Visualize User Data Reset')

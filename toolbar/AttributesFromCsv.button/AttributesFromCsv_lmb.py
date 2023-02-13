@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.project537.AttributesFromCsv()
+bimlight.project537.AttributesFromCsv()
+bimlight.Log('Attributes from CSV')

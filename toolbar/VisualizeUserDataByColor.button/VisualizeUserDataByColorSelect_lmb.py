@@ -1,5 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-
-hdm.visualize.VisualizeUserDataByColor(True)
+bimlight.visualize.VisualizeUserDataByColor(True)
+bimlight.Log('Visualize User Data by Color Select')

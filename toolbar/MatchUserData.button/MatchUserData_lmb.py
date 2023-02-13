@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.CopyUserData()
+bimlight.CopyUserData()
+bimlight.Log('Copy User Data')

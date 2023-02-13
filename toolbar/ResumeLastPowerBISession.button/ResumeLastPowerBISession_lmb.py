@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.powerbi.ResumeLastPowerBISession()
+bimlight.powerbi.ResumeLastPowerBISession()
+bimlight.Log('Resume Last PowerBI Session')

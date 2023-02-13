@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.SelectSimilarUserData()
+bimlight.SelectSimilarUserData()
+bimlight.Log('Select Similar User Data')

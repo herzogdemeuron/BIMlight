@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.project547.AssignMaterialBySublayerName()
+bimlight.project547.AssignMaterialBySublayerName()
+bimlight.Log('Assign Material by Sublayer Name')

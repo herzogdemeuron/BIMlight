@@ -1,4 +1,4 @@
-import hdmrhino as hdm
-import os
+import bimlight
 
-hdm.grouping.AssignGroupColor()
+bimlight.grouping.AssignGroupColor()
+bimlight.Log('Assign Group Color')
