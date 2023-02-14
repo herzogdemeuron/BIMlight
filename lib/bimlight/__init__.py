@@ -20,14 +20,17 @@ class Log():
     
         month = str(datetime.now().month)
         year = str(datetime.now().year)
-        filePath = os.path.join(baseDir, '_'.join([year, month, 'BIMlight.log']))
+        filePath = os.path.join(baseDir, '_'.join([year, month, 'BIMlight_toolbar.log']))
 
-        logging.basicConfig(filename=filePath,
-                            level=logging.DEBUG,
-                            format='%(asctime)s %(levelname)s %(message)s')
-    
         doc_path = str(Rhino.RhinoDoc.ActiveDoc.Path).replace(" ", '_')
         message = message.replace(" ", '_')
 
-        logging.info(' '.join([message, doc_path]))
+        formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+        handler = logging.FileHandler(filePath)        
+        handler.setFormatter(formatter)
 
+        logger = logging.getLogger('BIMlight')
+        logger.setLevel(logging.DEBUG)
+        logger.addHandler(handler)
+
+        logger.info(' '.join([message, doc_path]))
