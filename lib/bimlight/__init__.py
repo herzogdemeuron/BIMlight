@@ -16,12 +16,9 @@ class Log():
         import Rhino
         from datetime import datetime
 
-        currentFile = os.path.abspath(__file__)
-        baseDir = os.path.dirname(currentFile)
-    
         month = str(datetime.now().month)
         year = str(datetime.now().year)
-        filePath = os.path.join(baseDir, '_'.join([year, month, 'BIMlight_toolbar.log']))
+        filePath = os.path.join('C:\\HdM-DT', '_'.join([year, month, 'HdMRhino_toolbar.log']))
 
         doc_path = str(Rhino.RhinoDoc.ActiveDoc.Path).replace(" ", '_')
         # try to take out usernames
@@ -33,7 +30,7 @@ class Log():
         handler = logging.FileHandler(filePath)        
         handler.setFormatter(formatter)
 
-        logger = logging.getLogger('BIMlight')
+        logger = logging.getLogger('HdMRhinoToolbar')
         logger.setLevel(logging.DEBUG)
         logger.addHandler(handler)
 
