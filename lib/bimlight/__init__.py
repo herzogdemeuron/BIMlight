@@ -10,8 +10,9 @@ import grouping
 
 class Log():
     def __init__(self, message):
-        import logging
         import os
+        import re
+        import logging
         import Rhino
         from datetime import datetime
 
@@ -23,6 +24,9 @@ class Log():
         filePath = os.path.join(baseDir, '_'.join([year, month, 'BIMlight_toolbar.log']))
 
         doc_path = str(Rhino.RhinoDoc.ActiveDoc.Path).replace(" ", '_')
+        # try to take out usernames
+        doc_path = re.sub(r'\\[a-z][._][a-z]*\\', '\\xxx\\', doc_path, flags=re.IGNORECASE)
+        doc_path = re.sub(r'\\[a-z]*[._][a-z]\\', '\\xxx\\', doc_path, flags=re.IGNORECASE)
         message = message.replace(" ", '_')
 
         formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
