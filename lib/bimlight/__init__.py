@@ -21,9 +21,10 @@ class Log():
         filePath = os.path.join('C:\\HdM-DT', '_'.join([year, month, 'HdMRhino_toolbar.log']))
 
         doc_path = str(Rhino.RhinoDoc.ActiveDoc.Path).replace(" ", '_')
+        doc_path = doc_path.replace('\\', '/')
         # try to take out usernames
-        doc_path = re.sub(r'\\[a-z][._][a-z]*\\', '\\xxx\\', doc_path, flags=re.IGNORECASE)
-        doc_path = re.sub(r'\\[a-z]*[._][a-z]\\', '\\xxx\\', doc_path, flags=re.IGNORECASE)
+        doc_path = re.sub(r'/[a-z][._][a-z]*/', '/xxx/', doc_path, flags=re.IGNORECASE)
+        doc_path = re.sub(r'/[a-z]*[._][a-z]/', '/xxx/', doc_path, flags=re.IGNORECASE)
         message = message.replace(" ", '_')
 
         formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
