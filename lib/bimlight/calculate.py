@@ -17,86 +17,192 @@
 import rhinoscriptsyntax as rs
 import Rhino
 import scriptcontext
-from datetime import datetime
-import time
-import os
-import os.path as op
-import math
-import json
-import csv
-import shutil # standard module to copy a file
-import subprocess
 from variablesbl import *
 from utilsbl import *
+import rhyton
+
+
+def createObjectInformation():
+    bottom, surface, volume = 'Bottom Face Area', 'Surface Area', 'Volume'
+    res = rhyton.SelectionWindow.show(
+            [bottom, surface, volume],
+            "Choose Calculation:")
+    if not res:
+        return
+    
+    rs.EnableRedraw(False)
+
+    if res == bottom:
+        _bottomFaceArea()
+    elif res == surface:
+        _surfaceArea()
+    elif res == volume:
+        _volume()
+
+    rs.EnableRedraw(True)
+
+
+def _bottomFaceArea():
+    breps = rhyton.GetBreps()
+    data = []
+
+    for brep in breps:
+        if not rs.ObjectType(brep) == 8:
+            surfaces = rs.ExplodePolysurfaces(brep)
+            minimaZ = [rs.SurfaceAreaCentroid(srf)[1][2] for srf in surfaces]
+            surface = surfaces[minimaZ.index(min(minimaZ))]
+            rs.DeleteObjects(surfaces)
+        else:
+            surface = brep
+
+        info = {}
+        info['guid'] = brep
+        info['bl bottom face area'] = rs.SurfaceArea(surface)[0]
+        data.append(info)
+    
+    rhyton.ElementUserText.apply(data)
+
+def _surfaceArea():
+    breps = rhyton.GetBreps()
+    data = []
+
+    for brep in breps:
+        info = {}
+        info['guid'] = brep
+        info['bl surface area'] = rs.SurfaceArea(brep)[0]
+        data.append(info)
+
+    rhyton.ElementUserText.apply(data)
+
+def _volume():
+    breps = rhyton.GetBreps()
+    data = []
+
+    for brep in breps:
+        info = {}
+        info['guid'] = brep
+        info['bl volume'] = rs.SurfaceVolume(brep)[0]
+        data.append(info)
+
+    rhyton.ElementUserText.apply(data)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ##-------------------- PUBLIC FUNCTIONS
 
-def CreateObjectInformation(geometry = False):
-    """
-    Creates Parameters from geometery
-    """
+# def CreateObjectInformation(geometry = False):
+#     """
+#     Creates Parameters from geometery
+#     """
 
-    wipe_layer(BL_LAYER_GEO)
+#     wipe_layer(BL_LAYER_GEO)
 
-    mass_calc_methods = []
-    unit_factors = []
-    for entry in BL_MASSES:
-        mass_calc_methods.append(entry[2])
-        unit_factors.append(entry[1])
+#     mass_calc_methods = []
+#     unit_factors = []
+#     for entry in BL_MASSES:
+#         mass_calc_methods.append(entry[2])
+#         unit_factors.append(entry[1])
 
-    mass_calc_vars = BL_MASSES#bl mass calculation variables
+#     mass_calc_vars = BL_MASSES#bl mass calculation variables
 
 
-    user_method_selection = rs.ListBox(mass_calc_methods,
-    "Which information do you want to create?", "HdM BIM LIGHT")
-    if user_method_selection == None:
-        return
+#     user_method_selection = rs.ListBox(mass_calc_methods,
+#     "Which information do you want to create?", "HdM BIM LIGHT")
+#     if user_method_selection == None:
+#         return
 
-    #wipe creat bl layer srf for temp info
+#     #wipe creat bl layer srf for temp info
 
-    create_bl_layer(BL_LAYER_GEO)
-    t = None
-    if user_method_selection == mass_calc_methods[0]:
-        t = 0
-    if user_method_selection == mass_calc_methods[1]:
-        t = 1
-    if user_method_selection == mass_calc_methods[2]:
-        t = 2
-    if t == None:
-        return
+#     create_bl_layer(BL_LAYER_GEO)
+#     t = None
+#     if user_method_selection == mass_calc_methods[0]:
+#         t = 0
+#     if user_method_selection == mass_calc_methods[1]:
+#         t = 1
+#     if user_method_selection == mass_calc_methods[2]:
+#         t = 2
+#     if t == None:
+#         return
 
-    objs = user_object_selection()
+#     objs = user_object_selection()
 
-    if not objs:
-        return
+#     if not objs:
+#         return
 
-    # get conversion unit_factor
-    conversion_factor = get_unit_conversion_factor()
+#     # get conversion unit_factor
+#     conversion_factor = get_unit_conversion_factor()
 
-    rs.EnableRedraw(False)
-    for count, obj in enumerate(objs):
-        if (scriptcontext.escape_test(False)):
-            print ("BIM Light: Task cancelled.")
-            return
-        print ("BIM Light: Calculating %d / %d (ESC to cancel)" %(count + 1, len(objs)))
+#     rs.EnableRedraw(False)
+#     for count, obj in enumerate(objs):
+#         if (scriptcontext.escape_test(False)):
+#             print ("BIM Light: Task cancelled.")
+#             return
+#         print ("BIM Light: Calculating %d / %d (ESC to cancel)" %(count + 1, len(objs)))
 
-        if t == 0:
-            calc_mass = _calculate_area_srf(obj, geometry)
-        if t == 1:
-            calc_mass = _calculate_area_brep(obj, geometry)
-        if t == 2:
-            calc_mass = _calculate_volume_brep(obj, geometry)
+#         if t == 0:
+#             calc_mass = _calculate_area_srf(obj, geometry)
+#         if t == 1:
+#             calc_mass = _calculate_area_brep(obj, geometry)
+#         if t == 2:
+#             calc_mass = _calculate_volume_brep(obj, geometry)
 
-        if calc_mass:
-            # this can always calculate, since "no conversion" is
-            # CONVERSION_LOOKUP_TABLE.key("None") which is 1.
-            # 1^x is always 1 so this is safe.
-            calc_mass = calc_mass * (conversion_factor ** unit_factors[t])
-            rs.SetUserText(obj, mass_calc_vars[t][0], calc_mass)
-        else: rs.SetUserText(obj, mass_calc_vars[t][0], VALUE_ERROR)
+#         if calc_mass:
+#             # this can always calculate, since "no conversion" is
+#             # CONVERSION_LOOKUP_TABLE.key("None") which is 1.
+#             # 1^x is always 1 so this is safe.
+#             calc_mass = calc_mass * (conversion_factor ** unit_factors[t])
+#             rs.SetUserText(obj, mass_calc_vars[t][0], calc_mass)
+#         else: rs.SetUserText(obj, mass_calc_vars[t][0], VALUE_ERROR)
 
-    rs.EnableRedraw(True)
-    return
+#     rs.EnableRedraw(True)
+#     return
 
 ##-------------------- PUBLIC LEVEL FUNCTIONS
 
