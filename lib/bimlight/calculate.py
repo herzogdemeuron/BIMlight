@@ -17,9 +17,9 @@
 import rhinoscriptsyntax as rs
 import Rhino
 import scriptcontext
+import rhyton
 from variablesbl import *
 from utilsbl import *
-import rhyton
 
 
 def createObjectInformation():
@@ -30,7 +30,6 @@ def createObjectInformation():
     if not res:
         return
     
-    rs.EnableRedraw(False)
 
     if res == bottom:
         _bottomFaceArea()
@@ -39,11 +38,14 @@ def createObjectInformation():
     elif res == volume:
         _volume()
 
-    rs.EnableRedraw(True)
 
 
 def _bottomFaceArea():
     breps = rhyton.GetBreps()
+    if not breps:
+        return
+    
+    rs.EnableRedraw(False)
     data = []
 
     for brep in breps:
@@ -55,36 +57,47 @@ def _bottomFaceArea():
         else:
             surface = brep
 
-        info = {}
+        info = dict()
         info['guid'] = brep
         info['bl bottom face area'] = rs.SurfaceArea(surface)[0]
         data.append(info)
     
     rhyton.ElementUserText.apply(data)
+    rs.EnableRedraw(True)
 
 def _surfaceArea():
     breps = rhyton.GetBreps()
+    if not breps:
+        return
+    
+    rs.EnableRedraw(False)
     data = []
 
     for brep in breps:
-        info = {}
+        info = dict()
         info['guid'] = brep
         info['bl surface area'] = rs.SurfaceArea(brep)[0]
         data.append(info)
 
     rhyton.ElementUserText.apply(data)
+    rs.EnableRedraw(True)
 
 def _volume():
     breps = rhyton.GetBreps()
+    if not breps:
+        return
+    
+    rs.EnableRedraw(False)
     data = []
 
     for brep in breps:
-        info = {}
+        info = dict()
         info['guid'] = brep
         info['bl volume'] = rs.SurfaceVolume(brep)[0]
         data.append(info)
 
     rhyton.ElementUserText.apply(data)
+    rs.EnableRedraw(True)
 
 
 
