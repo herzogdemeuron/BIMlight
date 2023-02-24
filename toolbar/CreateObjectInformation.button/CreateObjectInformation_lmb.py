@@ -1,4 +1,4 @@
 import bimlight
 
-bimlight.calculate.CreateObjectInformation()
+bimlight.calculate.createObjectInformation()
 bimlight.Log('Create Object Information')
