@@ -53,13 +53,14 @@ def _bottomFaceArea():
             surfaces = rs.ExplodePolysurfaces(brep)
             minimaZ = [rs.SurfaceAreaCentroid(srf)[1][2] for srf in surfaces]
             surface = surfaces[minimaZ.index(min(minimaZ))]
+            area = rs.SurfaceArea(surface)[0]
             rs.DeleteObjects(surfaces)
         else:
-            surface = brep
+            area = rs.SurfaceArea(brep)[0]
 
         info = dict()
         info['guid'] = brep
-        info['bl bottom face area'] = rs.SurfaceArea(surface)[0]
+        info['bl bottom face area'] = area
         data.append(info)
     
     rhyton.ElementUserText.apply(data)
