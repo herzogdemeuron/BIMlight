@@ -1,4 +1,5 @@
 import bimlight
+import rhyton
 
-bimlight.visualize.VisualizeUserDataReset()
+rhyton.Visualization.reset()
 bimlight.Log('Visualize User Data Reset')
