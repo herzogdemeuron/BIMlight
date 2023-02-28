@@ -29,7 +29,6 @@ def createObjectInformation():
             "Choose Calculation:")
     if not res:
         return
-    
 
     if res == bottom:
         _bottomFaceArea()
@@ -37,7 +36,6 @@ def createObjectInformation():
         _surfaceArea()
     elif res == volume:
         _volume()
-
 
 
 def _bottomFaceArea():
