@@ -1,4 +1,5 @@
 import bimlight
+import rhyton
 
-bimlight.visualize.VisualizeUserDataByColor()
+rhyton.Visualization.byValue()
 bimlight.Log('Visualize User Data by Color')
