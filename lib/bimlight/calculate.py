@@ -58,10 +58,10 @@ def _bottomFaceArea():
 
         info = dict()
         info['guid'] = brep
-        info['bl bottom face area'] = area
+        info['bottom face area'] = area
         data.append(info)
     
-    rhyton.ElementUserText.apply(data)
+    rhyton.ElementUserText(BIMLIGHT).apply(data)
     rs.EnableRedraw(True)
 
 def _surfaceArea():
@@ -75,10 +75,10 @@ def _surfaceArea():
     for brep in breps:
         info = dict()
         info['guid'] = brep
-        info['bl surface area'] = rs.SurfaceArea(brep)[0]
+        info['surface area'] = rs.SurfaceArea(brep)[0]
         data.append(info)
 
-    rhyton.ElementUserText.apply(data)
+    rhyton.ElementUserText(BIMLIGHT).apply(data)
     rs.EnableRedraw(True)
 
 def _volume():
@@ -92,10 +92,10 @@ def _volume():
     for brep in breps:
         info = dict()
         info['guid'] = brep
-        info['bl volume'] = rs.SurfaceVolume(brep)[0]
+        info['volume'] = rs.SurfaceVolume(brep)[0]
         data.append(info)
 
-    rhyton.ElementUserText.apply(data)
+    rhyton.ElementUserText(BIMLIGHT).apply(data)
     rs.EnableRedraw(True)
 
 

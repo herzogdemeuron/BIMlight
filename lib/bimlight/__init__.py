@@ -6,6 +6,7 @@ import utilsbl
 import variablesbl
 import visualize
 import grouping
+from variablesbl import *
 
 
 class Log():
