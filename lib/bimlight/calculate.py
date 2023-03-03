@@ -61,7 +61,7 @@ def _bottomFaceArea():
         info['bottom face area'] = area
         data.append(info)
     
-    rhyton.ElementUserText(BIMLIGHT).apply(data)
+    rhyton.ElementUserText.apply(data)
     rs.EnableRedraw(True)
 
 def _surfaceArea():
@@ -78,7 +78,7 @@ def _surfaceArea():
         info['surface area'] = rs.SurfaceArea(brep)[0]
         data.append(info)
 
-    rhyton.ElementUserText(BIMLIGHT).apply(data)
+    rhyton.ElementUserText.apply(data)
     rs.EnableRedraw(True)
 
 def _volume():
@@ -95,7 +95,7 @@ def _volume():
         info['volume'] = rs.SurfaceVolume(brep)[0]
         data.append(info)
 
-    rhyton.ElementUserText(BIMLIGHT).apply(data)
+    rhyton.ElementUserText.apply(data)
     rs.EnableRedraw(True)
 
 
