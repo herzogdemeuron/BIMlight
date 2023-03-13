@@ -1,4 +1,6 @@
 import bimlight
+import rhyton
 
-bimlight.grouping.AssignGroupColor()
+rhyton.Rhyton(bimlight.BIMLIGHT)
+rhyton.ColorSchemeEditor()
 bimlight.Log('Assign Group Color')
