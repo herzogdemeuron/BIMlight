@@ -1,4 +1,6 @@
 import bimlight
+import rhyton
 
-bimlight.powerbi.StartPowerBI()
+rhyton.Rhyton(bimlight.BIMLIGHT)
+rhyton.Powerbi.show()
 bimlight.Log('Start PowerBI')
