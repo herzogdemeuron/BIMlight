@@ -1,5 +1,5 @@
 # BIMlight
-Simple BIM tools for Rhino
+*Simple BIM tools for Rhino*
 
 Clone this repo into 'C:/HdM-DT/RhinoToolbarExtensions/'.
 
