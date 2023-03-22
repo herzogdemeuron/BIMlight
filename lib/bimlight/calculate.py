@@ -12,12 +12,8 @@
     Created on 29. June 2022 by j.hoell, y.schindel
 
 '''
-
-##------------------ IMPORTS
 import rhinoscriptsyntax as rs
 import rhyton
-from variablesbl import *
-from utilsbl import *
 
 
 def createObjectInformation():
