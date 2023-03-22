@@ -40,22 +40,25 @@ def _bottomFaceArea():
     rs.EnableRedraw(False)
     data = []
 
-    for brep in breps:
-        if not rs.ObjectType(brep) == 8:
-            surfaces = rs.ExplodePolysurfaces(brep)
-            minimaZ = [rs.SurfaceAreaCentroid(srf)[1][2] for srf in surfaces]
-            surface = surfaces[minimaZ.index(min(minimaZ))]
-            area = rs.SurfaceArea(surface)[0]
-            rs.DeleteObjects(surfaces)
-        else:
-            area = rs.SurfaceArea(brep)[0]
+    with rhyton.ProgressBar(len(breps)) as bar:
+        for brep in breps:
+            if not rs.ObjectType(brep) == 8:
+                surfaces = rs.ExplodePolysurfaces(brep)
+                minimaZ = [rs.SurfaceAreaCentroid(srf)[1][2] for srf in surfaces]
+                surface = surfaces[minimaZ.index(min(minimaZ))]
+                area = rs.SurfaceArea(surface)[0]
+                rs.DeleteObjects(surfaces)
+            else:
+                area = rs.SurfaceArea(brep)[0]
 
-        info = dict()
-        info['guid'] = brep
-        info['bottom face area'] = area
-        data.append(info)
+            info = dict()
+            info['guid'] = brep
+            info['bottom face area'] = area
+            data.append(info)
+            bar.update()
     
-    rhyton.ElementUserText.apply(data)
+        rhyton.ElementUserText.apply(data)
+
     rs.EnableRedraw(True)
 
 def _surfaceArea():
@@ -66,13 +69,16 @@ def _surfaceArea():
     rs.EnableRedraw(False)
     data = []
 
-    for brep in breps:
-        info = dict()
-        info['guid'] = brep
-        info['surface area'] = rs.SurfaceArea(brep)[0]
-        data.append(info)
+    with rhyton.ProgressBar(len(breps)) as bar:
+        for brep in breps:
+            info = dict()
+            info['guid'] = brep
+            info['surface area'] = rs.SurfaceArea(brep)[0]
+            data.append(info)
+            bar.update()
 
-    rhyton.ElementUserText.apply(data)
+        rhyton.ElementUserText.apply(data)
+
     rs.EnableRedraw(True)
 
 def _volume():
@@ -83,12 +89,15 @@ def _volume():
     rs.EnableRedraw(False)
     data = []
 
-    for brep in breps:
-        info = dict()
-        info['guid'] = brep
-        info['volume'] = rs.SurfaceVolume(brep)[0]
-        data.append(info)
-
-    rhyton.ElementUserText.apply(data)
+    with rhyton.ProgressBar(len(breps)) as bar:
+        for brep in breps:
+            info = dict()
+            info['guid'] = brep
+            info['volume'] = rs.SurfaceVolume(brep)[0]
+            data.append(info)
+            bar.update()
+        
+        rhyton.ElementUserText.apply(data)
+        
     rs.EnableRedraw(True)
 
