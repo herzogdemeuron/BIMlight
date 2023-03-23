@@ -1,10 +1,14 @@
-import calculate
-import variablesbl
 from variablesbl import *
 
 
 class Log():
     def __init__(self, message):
+        """
+        Logs a message to a file.
+
+        Args:
+            message (str): The message to log.
+        """
         import os
         import re
         import logging
