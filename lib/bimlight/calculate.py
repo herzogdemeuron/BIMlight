@@ -17,6 +17,10 @@ import rhyton
 
 
 def createObjectInformation():
+    """
+    Creates object information.
+    Asks for the information to create and executes the corresponding function.
+    """
     bottom, surface, volume = 'Bottom Face Area', 'Surface Area', 'Volume'
     res = rhyton.SelectionWindow.show(
             [bottom, surface, volume],
@@ -33,6 +37,13 @@ def createObjectInformation():
 
 
 def _bottomFaceArea():
+    """
+    Calculates the bottom face area of a Brep.
+    If the Brep is a polysurface, the bottom face area is the area of the
+    surface with the lowest centroid.
+    If the Brep is a surface, the bottom face area is the area of the surface.
+    Uses Rhyton to write the results to the user text of the objects.
+    """
     breps = rhyton.GetBreps()
     if not breps:
         return
@@ -62,6 +73,10 @@ def _bottomFaceArea():
     rs.EnableRedraw(True)
 
 def _surfaceArea():
+    """
+    Calculates the surface area of a Brep.
+    Uses Rhyton to write the results to the user text of the objects.
+    """
     breps = rhyton.GetBreps()
     if not breps:
         return
@@ -82,6 +97,10 @@ def _surfaceArea():
     rs.EnableRedraw(True)
 
 def _volume():
+    """
+    Calculates the volume of a Brep.
+    Uses Rhyton to write the results to the user text of the objects.
+    """
     breps = rhyton.GetBreps()
     if not breps:
         return
