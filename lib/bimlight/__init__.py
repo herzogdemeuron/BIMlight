@@ -27,7 +27,7 @@ class Log():
         doc_path = re.sub(r'/[a-z][._][a-z]*/', '/xxx/', doc_path, flags=re.IGNORECASE)
         doc_path = re.sub(r'/[a-z]*[._][a-z]/', '/xxx/', doc_path, flags=re.IGNORECASE)
         message = message.replace(" ", '_')
-        extension = extension.replace(" ", '_')
+        extension = extension.replace(" ", '_').lower().title()
 
         formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
         handler = logging.FileHandler(filePath)        
