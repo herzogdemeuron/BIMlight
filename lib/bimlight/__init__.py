@@ -1,9 +1,10 @@
 import calculate
+import variablesbl
 from variablesbl import *
 
 
 class Log():
-    def __init__(self, message):
+    def __init__(self, message, extension=variablesbl.BIMLIGHT):
         """
         Logs a message to a file.
 
@@ -26,6 +27,7 @@ class Log():
         doc_path = re.sub(r'/[a-z][._][a-z]*/', '/xxx/', doc_path, flags=re.IGNORECASE)
         doc_path = re.sub(r'/[a-z]*[._][a-z]/', '/xxx/', doc_path, flags=re.IGNORECASE)
         message = message.replace(" ", '_')
+        extension = extension.replace(" ", '_')
 
         formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
         handler = logging.FileHandler(filePath)        
@@ -35,4 +37,4 @@ class Log():
         logger.setLevel(logging.DEBUG)
         logger.addHandler(handler)
 
-        logger.info(' '.join([message, doc_path]))
+        logger.info(' '.join([message, extension, doc_path]))
