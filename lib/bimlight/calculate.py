@@ -1,17 +1,7 @@
-# -*- coding: utf-8 -*-
+"""
+module for calculating object information.
+"""
 
-'''
-     __  __     _____     __    __           _____     ______
-    /\ \_\ \   /\  __-.  /\ \-./  \         /\  __-.  /\__  _\
-    \ \  __ \  \ \ \/\ \ \ \ \-./\ \        \ \ \/\ \ \/_/\ \/
-     \ \_\ \_\  \ \____-  \ \_\ \ \_\        \ \____-    \ \_\
-      \/_/\/_/   \/____/   \/_/  \/_/         \/____/     \/_/
-
-    BIMlight - Calculate
-
-    Created on 29. June 2022 by j.hoell, y.schindel
-
-'''
 import rhinoscriptsyntax as rs
 import rhyton
 
