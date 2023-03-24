@@ -16,6 +16,7 @@
 import rhinoscriptsyntax as rs
 
 #variables
+BIMLIGHT = "bimlight"
 BL_PREFIX = "bl"
 BL_SUFFIX = "_bl"
 BL_TEMP = "bl_temp"
