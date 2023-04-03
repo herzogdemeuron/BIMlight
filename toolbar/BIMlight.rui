@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<RhinoUI major_ver="3" minor_ver="0" guid="84cf7e9d-19a7-4d76-b6f7-af97a89f23e9" localize="False" default_language_id="1033" dpi_scale="150">
+<RhinoUI major_ver="3" minor_ver="0" guid="84cf7e9d-19a7-4d76-b6f7-af97a89f23e9" localize="False" default_language_id="1033" dpi_scale="100">
   <extend_rhino_menus>
     <menu guid="d58ceae7-fdb0-4104-80da-274b94ad44a9">
       <text>
@@ -9,7 +9,7 @@
   </extend_rhino_menus>
   <menus />
   <tool_bar_groups>
-    <tool_bar_group guid="e6f49abd-40a3-483d-bfdd-6c7811cce2ca" dock_bar_guid32="00000000-0000-0000-0000-000000000000" dock_bar_guid64="88ccc68f-2eba-44d4-9604-a379b06d3125" active_tool_bar_group="2341dc34-fbd8-4589-9a04-bff07ba642d5" single_file="False" hide_single_tab="False" point_floating="557,-1410">
+    <tool_bar_group guid="e6f49abd-40a3-483d-bfdd-6c7811cce2ca" dock_bar_guid32="00000000-0000-0000-0000-000000000000" dock_bar_guid64="88ccc68f-2eba-44d4-9604-a379b06d3125" active_tool_bar_group="2341dc34-fbd8-4589-9a04-bff07ba642d5" single_file="False" hide_single_tab="False" point_floating="593,476">
       <text>
         <locale_1033>BIMlight</locale_1033>
       </text>
@@ -19,7 +19,7 @@
         </text>
         <tool_bar_id>a18630e5-6e2b-4657-a77b-6f197768ce46</tool_bar_id>
       </tool_bar_group_item>
-      <dock_bar_info dpi_scale="150" dock_bar="False" docking="True" horz="False" visible="False" floating="True" mru_float_style="8192" bar_id="59489" mru_width="868" point_pos="-2,-2" float_point="557,-1410" rect_mru_dock_pos="0,0,0,0" dock_location_u="59420" dock_location="left" float_size="1293,87" />
+      <dock_bar_info dpi_scale="100" dock_bar="False" docking="True" horz="False" visible="True" floating="True" mru_float_style="8192" bar_id="59488" mru_width="868" point_pos="-2,-2" float_point="593,476" rect_mru_dock_pos="0,0,0,0" dock_location_u="59420" dock_location="left" float_size="411,62" />
     </tool_bar_group>
   </tool_bar_groups>
   <tool_bars>
@@ -43,10 +43,6 @@
         <left_macro_id>7ed6a084-ef97-49fb-8869-362308d1528d</left_macro_id>
         <right_macro_id>a7e35214-ab18-4655-a660-6bf14fc30e84</right_macro_id>
       </tool_bar_item>
-      <tool_bar_item guid="f90ea46e-1ee1-4b01-b97e-2c22294d63ed" display_style_from_parent="False">
-        <left_macro_id>f5f91634-66e0-4a29-8d4f-bb751687fa11</left_macro_id>
-        <right_macro_id>8db4ae2a-ab2d-4b2d-906b-ac18fa9c7c1a</right_macro_id>
-      </tool_bar_item>
       <tool_bar_item guid="cf59ee7e-919a-4424-ae49-c6df43808371" button_style="spacer" />
       <tool_bar_item guid="618913b7-374e-4b1a-bdcc-b744f2ca10aa" display_style_from_parent="False">
         <left_macro_id>02530c80-568b-4317-8c36-a2bbcd134ba1</left_macro_id>
@@ -65,17 +61,9 @@
         <right_macro_id>c4966c2c-402c-4c77-97c4-279fff2cc1d4</right_macro_id>
       </tool_bar_item>
       <tool_bar_item guid="c2f43022-1d3a-4fba-afc4-0a0646f12385" button_style="spacer" />
-      <tool_bar_item guid="5d7c5d26-23b2-4770-8533-43366367f3fc" display_style_from_parent="False">
-        <left_macro_id>1292cb6b-296f-463b-b833-0f2b57ab6a91</left_macro_id>
-        <right_macro_id>49f082ed-3ace-4172-a5c2-66b33e287c45</right_macro_id>
-      </tool_bar_item>
-      <tool_bar_item guid="db5e4e36-d7e9-4cae-93b5-dc8e5b6ff543" display_style_from_parent="False">
+      <tool_bar_item guid="4c7ed317-0460-4804-ac74-9e5970dec978" display_style_from_parent="False">
         <left_macro_id>4c2662fb-dc32-45b2-bbe3-9141fafa232e</left_macro_id>
         <right_macro_id>7722ce3a-1227-4800-bd3d-36f818aee46b</right_macro_id>
-      </tool_bar_item>
-      <tool_bar_item guid="9d8c6912-6d0c-489c-87b2-0e2855ce6026" display_style_from_parent="False">
-        <left_macro_id>fc8a66e8-166f-431f-8def-44aa68eecde4</left_macro_id>
-        <right_macro_id>57116371-c629-4149-b8f2-40fec7cde060</right_macro_id>
       </tool_bar_item>
       <tool_bar_item guid="e43b02e0-cfec-495b-b4dc-10dfd09bce0b" button_style="spacer" />
       <tool_bar_item guid="b634ad63-85c6-414e-aa99-99719ab50c23" display_style_from_parent="False">
@@ -91,23 +79,7 @@
         <left_macro_id>acb5cacc-b9ef-4047-beb8-3c2517353301</left_macro_id>
         <right_macro_id>820fe88f-093b-4fa9-8db8-b25ebba5cf94</right_macro_id>
       </tool_bar_item>
-      <tool_bar_item guid="a8784397-fc91-4fd5-aabb-030b91a24dd2">
-        <left_macro_id>3ad46d63-7b64-4f1a-82ee-93287f881092</left_macro_id>
-        <right_macro_id>08491956-a1d3-4354-8ee7-5d352a36807f</right_macro_id>
-      </tool_bar_item>
-      <tool_bar_item guid="906b7dba-636a-41eb-9148-d5a52c0cf353">
-        <left_macro_id>08b704e8-c1fd-4855-aa15-1ec1e259ded2</left_macro_id>
-        <right_macro_id>e0bbf557-f3f9-41a7-a337-3fdd9b33f51e</right_macro_id>
-      </tool_bar_item>
       <tool_bar_item guid="097f53a0-4f72-40f8-a555-82c730c4f8d5" button_style="spacer" />
-      <tool_bar_item guid="d7ed7bbf-26d0-449c-b3be-1e8306b3b36f">
-        <left_macro_id>ebd6dea8-0fca-4dae-9421-9d91c0818d9c</left_macro_id>
-        <right_macro_id>643a1cce-8761-4ea1-9647-d42c7c5bbf2d</right_macro_id>
-      </tool_bar_item>
-      <tool_bar_item guid="4f22aee3-e03a-4cca-b70c-fae66273fc2b" display_style_from_parent="False">
-        <left_macro_id>5dd4b6a3-7075-4e68-8e67-393f40cc910f</left_macro_id>
-        <right_macro_id>0c7489ff-5fd5-44a8-987b-933d62001968</right_macro_id>
-      </tool_bar_item>
     </tool_bar>
   </tool_bars>
   <macros>
