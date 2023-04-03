@@ -1,4 +1,6 @@
 import bimlight
+import rhyton
 
-bimlight.powerbi.PushToPowerBI()
+rhyton.Rhyton(bimlight.BIMLIGHT)
+rhyton.Powerbi.update()
 bimlight.Log('Push to PowerBI')

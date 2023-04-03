@@ -1,4 +1,7 @@
 import bimlight
+import rhyton
 
-bimlight.settings.SettingsBimLight()
+rhyton.Settings(bimlight.BIMLIGHT)
+
+# bimlight.settings.SettingsBimLight()
 bimlight.Log('Settings Bimlight')

@@ -1,4 +1,6 @@
 import bimlight
+import rhyton
 
-bimlight.export.ExportUserData()
+rhyton.Rhyton(bimlight.BIMLIGHT)
+rhyton.Export()
 bimlight.Log('Export User Data')

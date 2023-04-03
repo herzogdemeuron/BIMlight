@@ -1,4 +1,6 @@
 import bimlight
+import rhyton
 
-bimlight.visualize.VisualizeUserDataBySum()
+rhyton.Rhyton(bimlight.BIMLIGHT)
+rhyton.Visualize.sumTotal()
 bimlight.Log('Visualize User Data by Sum')

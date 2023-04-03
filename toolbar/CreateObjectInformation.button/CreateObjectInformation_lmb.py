@@ -1,4 +1,6 @@
 import bimlight
+import rhyton
 
-bimlight.calculate.CreateObjectInformation()
+rhyton.Rhyton(bimlight.BIMLIGHT)
+bimlight.calculate.createObjectInformation()
 bimlight.Log('Create Object Information')

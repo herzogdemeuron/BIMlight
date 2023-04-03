@@ -1,4 +1,6 @@
 import bimlight
+import rhyton
 
-bimlight.visualize.VisualizeUserDataByGrouping()
+rhyton.Rhyton(bimlight.BIMLIGHT)
+rhyton.Visualize.byGroup()
 bimlight.Log('Visualize User Data by Grouping')
