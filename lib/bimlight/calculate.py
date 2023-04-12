@@ -45,7 +45,7 @@ def _bottomFaceArea():
         for brep in breps:
             if not rs.ObjectType(brep) == 8:
                 surfaces = rs.ExplodePolysurfaces(brep)
-                minimaZ = [rs.SurfaceAreaCentroid(srf)[1][2] for srf in surfaces]
+                minimaZ = [rs.SurfaceAreaCentroid(srf)[0][2] for srf in surfaces]
                 surface = surfaces[minimaZ.index(min(minimaZ))]
                 area = rs.SurfaceArea(surface)[0]
                 rs.DeleteObjects(surfaces)
