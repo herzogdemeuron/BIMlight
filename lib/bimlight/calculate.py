@@ -41,10 +41,16 @@ def _bottomFaceArea():
     rs.EnableRedraw(False)
     data = []
 
+    failedObjectList = []
+
     with rhyton.ProgressBar(len(breps)) as bar:
         for brep in breps:
             if not rs.ObjectType(brep) == 8:
                 surfaces = rs.ExplodePolysurfaces(brep)
+                if len(surfaces)==0:
+                    print ("%s can not be calculated" %(brep)) 
+                    failedObjectList.append(brep)
+                    continue
                 minimaZ = [rs.SurfaceAreaCentroid(srf)[0][2] for srf in surfaces]
                 surface = surfaces[minimaZ.index(min(minimaZ))]
                 area = rs.SurfaceArea(surface)[0]
@@ -60,7 +66,12 @@ def _bottomFaceArea():
     
         rhyton.ElementUserText.apply(data)
 
+    rs.UnselectAllObjects()
     rs.EnableRedraw(True)
+    
+    _errorOutput(failedObjectList)
+    
+    return
 
 def _surfaceArea():
     """
@@ -71,6 +82,8 @@ def _surfaceArea():
     if not breps:
         return
     
+    failedObjectList = []
+
     rs.EnableRedraw(False)
     data = []
 
@@ -78,13 +91,23 @@ def _surfaceArea():
         for brep in breps:
             info = dict()
             info['guid'] = brep
+            brepSurface = rs.SurfaceArea(brep)
+            if brepSurface == None:
+                print ("%s can not be calculated" %(brep)) 
+                failedObjectList.append(brep)
+                continue
             info['surface area'] = rs.SurfaceArea(brep)[0]
             data.append(info)
             bar.update()
 
         rhyton.ElementUserText.apply(data)
 
+    rs.UnselectAllObjects()
     rs.EnableRedraw(True)
+    
+    _errorOutput(failedObjectList)
+    
+    return
 
 def _volume():
     """
@@ -98,15 +121,58 @@ def _volume():
     rs.EnableRedraw(False)
     data = []
 
+    failedObjectList = []
+
     with rhyton.ProgressBar(len(breps)) as bar:
         for brep in breps:
+            #check type and if brep is closed
+            objectType = rs.ObjectType(brep)
+            if objectType == 16 or objectType == 1073741824:
+                isPolySrfClosed = rs.IsPolysurfaceClosed(brep)
+            else:
+                print ("%s is type %s and can not be calculated" %(brep, objectType))
+                failedObjectList.append(brep)
+                continue
+            
+            if isPolySrfClosed:
+                brepVolume = rs.SurfaceVolume(brep)
+                if brepVolume == None: 
+                    print ("%s can not be calculated" %(brep)) 
+                    failedObjectList.append(brep)
+                    continue
+            else:
+                print ("%s is not closed and can not be calculated" %(brep))
+                failedObjectList.append(brep)
+                continue
+
             info = dict()
             info['guid'] = brep
-            info['volume'] = rs.SurfaceVolume(brep)[0]
+            info['volume'] = brepVolume[0]
             data.append(info)
             bar.update()
         
         rhyton.ElementUserText.apply(data)
-        
+    
+    rs.UnselectAllObjects()
     rs.EnableRedraw(True)
+    
+    _errorOutput(failedObjectList)
 
+    return
+
+def _errorOutput(list):
+    """
+    Creates warning message and prints for list of object that failed to calculate
+    """
+
+    if len(list) > 0:
+        rs.SelectObjects(list)
+        rhyton.SelectionWindow.showWarning(
+            'Partial volume calculation failure.'
+            + ' Selected items affected. See Command window for details.'
+            )
+        print ("Calculation partially sucessful")
+    else:
+        print ("Calculation sucessful")
+
+    return
