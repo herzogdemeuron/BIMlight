@@ -188,8 +188,8 @@ def _errorOutput(list):
             'Partial volume calculation failure.'
             + ' Selected items affected. See Command window for details.'
             )
-        print ("Calculation partially sucessful")
+        print ("Calculation partially successful")
     else:
-        print ("Calculation sucessful")
+        print ("Calculation successful")
 
     return
