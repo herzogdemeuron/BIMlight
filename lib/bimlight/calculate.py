@@ -46,23 +46,40 @@ def _bottomFaceArea():
     with rhyton.ProgressBar(len(breps)) as bar:
         for brep in breps:
             if not rs.ObjectType(brep) == 8:
+                #explode brep to get singel surfaces
                 surfaces = rs.ExplodePolysurfaces(brep)
                 if len(surfaces)==0:
                     print ("%s can not be calculated" %(brep)) 
                     failedObjectList.append(brep)
+                    rs.DeleteObjects(surfaces)
                     continue
-                minimaZ = [rs.SurfaceAreaCentroid(srf)[0][2] for srf in surfaces]
-                surface = surfaces[minimaZ.index(min(minimaZ))]
-                area = rs.SurfaceArea(surface)[0]
-                rs.DeleteObjects(surfaces)
+                #create list of minimal Z centroid of each surface and select lowest
+                minimaZ = []
+                for srf in surfaces:
+                    srfAreaCentroid = rs.SurfaceAreaCentroid(srf)
+                    if srfAreaCentroid == None:
+                        print ("%s can not be calculated" %(brep)) 
+                        failedObjectList.append(brep)
+                        rs.DeleteObjects(surfaces)
+                        minimaZ = []
+                        area = None
+                        break
+                    else:
+                        minimaZ.append(srfAreaCentroid[0][2])
+                if len(minimaZ) > 0:
+                    surface = surfaces[minimaZ.index(min(minimaZ))]
+                    #calculate area of bottom surface
+                    area = rs.SurfaceArea(surface)[0]
+                    rs.DeleteObjects(surfaces)
             else:
                 area = rs.SurfaceArea(brep)[0]
 
-            info = dict()
-            info['guid'] = brep
-            info['bottom face area'] = area
-            data.append(info)
-            bar.update()
+            if area != None:
+                info = dict()
+                info['guid'] = brep
+                info['bottom face area'] = area
+                data.append(info)
+                bar.update()
     
         rhyton.ElementUserText.apply(data)
 
