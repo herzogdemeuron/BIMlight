@@ -22,7 +22,12 @@
 
 3. **Install Toolbar**
    - Run the command: `Toolbar`
-   - Opten the BIMlight toolbar file:
+   - Open the BIMlight toolbar file:
      `C:\HdM-DT\RhinoToolbarExtensions\BIMlight\toolbar\BIMlight.rui`
 
 ### Ready to Use!
+
+### Update
+- To update, pull the latest changes from the **BIMlight** and **rhyton** repositories into their respective paths under  
+  `C:\HdM-DT\RhinoToolbarExtensions\BIMlight` and  
+  `C:\HdM-DT\RhinoToolbarExtensions\rhyton`.
