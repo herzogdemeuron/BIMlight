@@ -6,6 +6,9 @@ import rhinoscriptsyntax as rs
 import rhyton
 
 
+
+
+
 def createObjectInformation():
     """
     Creates object information.
@@ -34,7 +37,13 @@ def _bottomFaceArea():
     If the Brep is a surface, the bottom face area is the area of the surface.
     Uses Rhyton to write the results to the user text of the objects.
     """
-    breps = rhyton.GetBreps()
+    # Get total selection count before filtering
+    allSelected = rs.GetObjects(preselect=True, select=True)
+    if not allSelected:
+        return
+    totalSelected = len(allSelected)
+    
+    breps = rhyton.GetBreps([8, 16, 1073741824])  # Only surfaces, polysurfaces, extrusions
     if not breps:
         return
     
@@ -88,18 +97,29 @@ def _bottomFaceArea():
     
     _errorOutput(failedObjectList)
     
+    # Check if some objects were not processed
+    if len(data) + len(failedObjectList) < totalSelected:
+        print("Note: Bottom Face Area calculation only includes Surfaces, Polysurfaces and Extrusions.")
+    
     return
 
 def _surfaceArea():
     """
-    Calculates the surface area of a Brep.
+    Calculates the surface area of a Brep or Hatch.
     Uses Rhyton to write the results to the user text of the objects.
     """
-    breps = rhyton.GetBreps()
+    # Get total selection count before filtering
+    allSelected = rs.GetObjects(preselect=True, select=True)
+    if not allSelected:
+        return
+    totalSelected = len(allSelected)
+    
+    breps = rhyton.GetBreps([8, 16, 1073741824, 65536])  # Surfaces, polysurfaces, extrusions, hatches
     if not breps:
         return
     
     failedObjectList = []
+    failedHatchList = []  # Separate list for failed hatches
 
     rs.EnableRedraw(False)
     data = []
@@ -108,12 +128,28 @@ def _surfaceArea():
         for brep in breps:
             info = dict()
             info['guid'] = brep
-            brepSurface = rs.SurfaceArea(brep)
-            if brepSurface == None:
-                print ("%s can not be calculated" %(brep)) 
-                failedObjectList.append(brep)
-                continue
-            info['surface area'] = rs.SurfaceArea(brep)[0]
+            area = None
+            
+            objectType = rs.ObjectType(brep)
+            
+            if objectType == 65536:  # Hatch
+                area = rs.Area(brep)
+                if area is None:
+                    print("%s hatch area could not be calculated" % brep)
+                    failedHatchList.append(brep)
+                    bar.update()
+                    continue
+            else:
+                # Existing BREP area calculation
+                brepSurface = rs.SurfaceArea(brep)
+                if brepSurface == None:
+                    print("%s can not be calculated" % brep) 
+                    failedObjectList.append(brep)
+                    bar.update()
+                    continue
+                area = brepSurface[0]
+            
+            info['surface area'] = area
             data.append(info)
             bar.update()
 
@@ -122,7 +158,12 @@ def _surfaceArea():
     rs.UnselectAllObjects()
     rs.EnableRedraw(True)
     
-    _errorOutput(failedObjectList)
+    # Handle all failed objects with combined feedback
+    _combinedErrorOutput(failedObjectList, failedHatchList)
+    
+    # Check if some objects were not processed
+    if len(data) + len(failedObjectList) + len(failedHatchList) < totalSelected:
+        print("Note: Surface Area calculation only includes Surfaces, Polysurfaces, Extrusions and Hatches.")
     
     return
 
@@ -131,7 +172,13 @@ def _volume():
     Calculates the volume of a Brep.
     Uses Rhyton to write the results to the user text of the objects.
     """
-    breps = rhyton.GetBreps()
+    # Get total selection count before filtering
+    allSelected = rs.GetObjects(preselect=True, select=True)
+    if not allSelected:
+        return
+    totalSelected = len(allSelected)
+    
+    breps = rhyton.GetBreps([16, 1073741824])  # Only closed polysurfaces and extrusions
     if not breps:
         return
     
@@ -174,6 +221,10 @@ def _volume():
     rs.EnableRedraw(True)
     
     _errorOutput(failedObjectList)
+    
+    # Check if some objects were not processed
+    if len(data) + len(failedObjectList) < totalSelected:
+        print("Note: Volume calculation only includes closed Polysurfaces and Extrusions.")
 
     return
 
@@ -192,4 +243,28 @@ def _errorOutput(list):
     else:
         print ("Calculation successful")
 
+    return
+
+def _combinedErrorOutput(objectList, hatchList):
+    """
+    Creates combined warning message for all objects that failed surface area calculation
+    """
+    allFailedObjects = objectList + hatchList
+    
+    if len(allFailedObjects) > 0:
+        message = (
+            'Surface area calculation failed for {0} object(s):\n'
+            '- {1} surface/polysurface objects\n'
+            '- {2} hatch objects\n\n'
+            'This may be due to invalid geometry, open boundaries, '
+            'or unsupported object types.\n\n'
+            'Affected objects will be selected after clicking OK.'
+        ).format(len(allFailedObjects), len(objectList), len(hatchList))
+        
+        rhyton.SelectionWindow.showWarning(message)
+        rs.SelectObjects(allFailedObjects)
+        print("Surface area calculation failed for {0} objects".format(len(allFailedObjects)))
+    else:
+        print("Surface area calculation successful")
+    
     return
