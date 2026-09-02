@@ -60,8 +60,50 @@ class Rhyton(object):
     ROUNDING_DECIMALS_NAME = 'rounding_decimals'
     ROUNDING_DECIMALS = 2
     QUALITY_CHECK_NAME = 'quality_check'
-    QUALITY_CHECK_ASK = 'ask'
-    QUALITY_CHECK_OFF = 'off'
+    INCLUDE_BLOCKS_NAME = 'include_blocks'
+    YES = 'Yes'
+    NO = 'No'
+
+    # shown instead of the raw key in the settings dialog
+    SETTINGS_LABELS = {
+            ROUNDING_DECIMALS_NAME: "Decimals in displayed numbers (number)",
+            QUALITY_CHECK_NAME: "Ask QC before export (Yes/No)",
+            INCLUDE_BLOCKS_NAME: "Include blocks (Yes/No)",
+            }
+
+    @staticmethod
+    def isYes(value):
+        """
+        Interprets a Yes/No setting.
+
+        Args:
+            value (mixed): The stored setting value.
+
+        Returns:
+            bool: True if the setting is set to Yes.
+        """
+        return str(value).strip().lower() in ('yes', 'true', '1')
+
+    @property
+    def qualityCheck(self):
+        """
+        Whether the user is offered the quality check before an export.
+
+        Returns:
+            bool: True if the export should ask.
+        """
+        return self.isYes(self.settings.get(self.QUALITY_CHECK_NAME, self.YES))
+
+    @property
+    def includeBlocks(self):
+        """
+        Whether block instances count as objects rhyton operates on.
+
+        Returns:
+            bool: True if blocks should be included.
+        """
+        return self.isYes(
+                self.settings.get(self.INCLUDE_BLOCKS_NAME, self.YES))
 
 
     def __init__(self, extensionName=None):
@@ -118,7 +160,8 @@ class Rhyton(object):
         """
         config = dict()
         config[self.ROUNDING_DECIMALS_NAME] = self.ROUNDING_DECIMALS
-        config[self.QUALITY_CHECK_NAME] = self.QUALITY_CHECK_ASK
+        config[self.QUALITY_CHECK_NAME] = self.YES
+        config[self.INCLUDE_BLOCKS_NAME] = self.YES
         return config
     
     @property

@@ -636,25 +636,74 @@ class Layer:
         ElementUserText.remove(guids, [k for k in ElementUserText.getKeys(guids) if Rhyton.LAYER_HIERARCHY in k])
 
 
-def GetBreps(filterByTypes=[8, 16, 1073741824, 65536]):
+SURFACE = 8
+POLYSURFACE = 16
+BLOCK = 4096
+TEXTDOT = 8192
+HATCH = 65536
+EXTRUSION = 1073741824
+
+
+def selectableTypes(extra=None):
+    """
+    The Rhino object types rhyton commands operate on.
+    Blocks are included depending on the extension settings.
+
+    Args:
+        extra (list(int), optional): Additional object types to allow.
+
+    Returns:
+        list[int]: The allowed Rhino object types.
+    """
+    types = [SURFACE, POLYSURFACE, EXTRUSION, HATCH]
+    if Rhyton().includeBlocks:
+        types.append(BLOCK)
+
+    if extra:
+        types.extend(extra)
+
+    return types
+
+
+def GetBreps(filterByTypes=None):
     """
     Gets the currently selected Rhino objects or asks the user to go get some.
-    
-    Allowed objects are by default::
+    Reports the objects it had to drop, so a partial selection is never
+    silently reduced.
 
-        8 = Surface
-        16 = Polysurface
-        1073741824 = Extrusion
-        65536 = Hatch
+    Args:
+        filterByTypes (list(int), optional): The allowed Rhino object types.
+                Defaults to :func:`selectableTypes`.
 
     Returns:
         list[str]: A list of Rhino objects ids.
     """
+    from rhyton.ui import SelectionWindow
+
+    if filterByTypes is None:
+        filterByTypes = selectableTypes()
+
     selection = rs.GetObjects(preselect=True, select=True)
     if not selection:
         return None
 
     breps = [str(b) for b in selection if rs.ObjectType(b) in filterByTypes]
+    dropped = len(selection) - len(breps)
+    if dropped:
+        message = "{0} of {1} selected objects are not supported and were skipped.".format(
+                dropped, len(selection))
+        if BLOCK not in filterByTypes:
+            blocks = len([b for b in selection if rs.ObjectType(b) == BLOCK])
+            if blocks:
+                message += (
+                        "\n\n{0} of them are blocks."
+                        " Set '{1}' to '{2}' in the settings to use them.".format(
+                                blocks,
+                                Rhyton.SETTINGS_LABELS[Rhyton.INCLUDE_BLOCKS_NAME],
+                                Rhyton.YES))
+
+        SelectionWindow.showWarning(message)
+
     return breps
 
 

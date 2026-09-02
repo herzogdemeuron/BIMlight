@@ -66,11 +66,7 @@ def gate(guids):
     Returns:
         bool: True when the export should continue.
     """
-    settings = rhyton.Rhyton().settings
-    mode = str(settings.get(
-            rhyton.Rhyton.QUALITY_CHECK_NAME,
-            rhyton.Rhyton.QUALITY_CHECK_ASK)).strip().lower()
-    if mode == rhyton.Rhyton.QUALITY_CHECK_OFF:
+    if not rhyton.Rhyton().qualityCheck:
         return True
 
     if not rhyton.SelectionWindow.confirm(

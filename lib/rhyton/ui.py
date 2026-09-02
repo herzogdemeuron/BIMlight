@@ -14,6 +14,7 @@ from rhyton.main import Rhyton
 from rhyton.export import CsvExporter, JsonExporter
 from rhyton.document import GetBreps, ElementUserText, Group, TextDot, GetFilePath
 from rhyton.document import DocumentConfigStorage, ElementOverrides, Layer
+from rhyton.document import selectableTypes, TEXTDOT
 from rhyton.utils import Format, groupGuidsBy
 
 class Visualize:
@@ -174,7 +175,7 @@ class Visualize:
                     choices, message='Reset all visualizations?')
 
         if resetAll == 'select':
-            breps = GetBreps(filterByTypes=[8, 16, 8192, 1073741824, 65536])
+            breps = GetBreps(filterByTypes=selectableTypes([TEXTDOT]))
             if not breps:
                 return
             
@@ -401,7 +402,9 @@ class Settings(Rhyton):
         """
         while True:
             res = SelectionWindow.dictBox(
-                    options=self.settings, message=self.extensionSettings)
+                    options=self.settings,
+                    message=self.extensionSettings,
+                    labels=self.SETTINGS_LABELS)
             if not res:
                 return
 
@@ -416,7 +419,8 @@ class Settings(Rhyton):
     @classmethod
     def validate(cls, settings):
         """
-        Checks the values the user entered in the settings dialog.
+        Checks the values the user entered in the settings dialog and
+        normalises the Yes/No entries.
 
         Args:
             settings (dict): The settings to check.
@@ -428,15 +432,15 @@ class Settings(Rhyton):
             int(settings[cls.ROUNDING_DECIMALS_NAME])
         except (KeyError, TypeError, ValueError):
             return "'{0}' must be a whole number.".format(
-                    cls.ROUNDING_DECIMALS_NAME)
+                    cls.SETTINGS_LABELS[cls.ROUNDING_DECIMALS_NAME])
 
-        allowed = [cls.QUALITY_CHECK_ASK, cls.QUALITY_CHECK_OFF]
-        value = str(settings.get(cls.QUALITY_CHECK_NAME, '')).strip().lower()
-        if value not in allowed:
-            return "'{0}' must be one of: {1}".format(
-                    cls.QUALITY_CHECK_NAME, ', '.join(allowed))
+        for name in (cls.QUALITY_CHECK_NAME, cls.INCLUDE_BLOCKS_NAME):
+            value = str(settings.get(name, '')).strip().lower()
+            if value not in ('yes', 'no'):
+                return "'{0}' must be '{1}' or '{2}'.".format(
+                        cls.SETTINGS_LABELS[name], cls.YES, cls.NO)
 
-        settings[cls.QUALITY_CHECK_NAME] = value
+            settings[name] = cls.YES if value == 'yes' else cls.NO
 
 
 class SelectionWindow:
@@ -493,21 +497,27 @@ class SelectionWindow:
                 title=Rhyton().extensionName.title())
     
     @staticmethod
-    def dictBox(options, message=None):
+    def dictBox(options, message=None, labels=None):
         """
         Show a dictionary-style list box to the user.
 
         Args:
             options (dict): The key, value pairs.
             message (str, optional): The message to the user. Defaults to None.
+            labels (dict, optional): Display text per key. Defaults to the formatted key.
+
+        Returns:
+            dict: The original keys with the values the user entered.
         """
+        labels = labels or dict()
+        keys = list(options.keys())
         res = rs.PropertyListBox(
-                [Format.value(k) for k in options.keys()],
-                options.values(),
+                [labels.get(k, Format.value(k)) for k in keys],
+                [options[k] for k in keys],
                 message,
                 title=Rhyton().extensionName.title())
         if res:
-            return dict((k, v) for k, v in zip(options.keys(), res))
+            return dict((k, v) for k, v in zip(keys, res))
         
     @staticmethod
     def showWarning(message):
