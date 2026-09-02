@@ -29,10 +29,10 @@
 
 ### Upgrading from a previous install
 
-[Rhyton](https://github.com/herzogdemeuron/rhyton) now ships inside this repository under `lib\rhyton\`. If you installed BIMlight before this change:
+The `rhyton` core library now lives in this repository under `lib\rhyton\` and is no longer installed separately. If you installed BIMlight before this change:
 
 - **Remove** the old `C:\HdM-DT\RhinoToolbarExtensions\rhyton\lib\` entry from the Rhino Python search paths. If it is left in place it may shadow the bundled copy. BIMlight raises a clear error on startup when this happens.
-- The separate `rhyton` clone is no longer needed.
+- The old `C:\HdM-DT\RhinoToolbarExtensions\rhyton` folder can be deleted.
 
 ### Update
 - To update, pull the latest changes from this repository into  
@@ -46,7 +46,21 @@
 - **Blocks can be included.** Block instances are treated as regular objects for visualisation, export and PowerBI. Controlled by the `Include blocks` setting (`No` by default). Area and volume calculations always skip blocks, because those values cannot be derived from a block instance.
 - **Skipped objects are reported.** Selecting objects that a command cannot handle no longer fails silently; BIMlight says how many were skipped and why.
 
-## Bundled dependencies
+## Structure
 
-`lib\rhyton\` is vendored from [herzogdemeuron/rhyton](https://github.com/herzogdemeuron/rhyton) at commit `ee02e56`.
+| Path | Contents |
+| --- | --- |
+| `lib\bimlight\` | The BIM specific commands: calculations, quality check, logging. |
+| `lib\rhyton\` | The core library: object user text, document storage, colours, visualisation, export. |
+| `toolbar\` | The Rhino toolbars and the script each button runs. |
+
+## History
+
+BIMlight began as part of the internal HdM Rhino toolbar. It was extracted into this repository and open sourced on GitHub in 2023, so **the commit history of this repository starts there** — everything before that was developed internally and is recorded below.
+
+| Year | Milestone | Contributors |
+| --- | --- | --- |
+| 2020 | Concept and first release | [@julianKD](https://github.com/julianKD) |
+| 2021–2022 | Feature development and refinement | [@yschindel](https://github.com/yschindel), [@julianKD](https://github.com/julianKD) |
+| 2023 | Rewritten on a new reusable core library, `rhyton`, and open sourced on GitHub | [@yschindel](https://github.com/yschindel) |
 
