@@ -692,6 +692,7 @@ def GetBreps(filterByTypes=None):
     if dropped:
         message = "{0} of {1} selected objects are not supported and were skipped.".format(
                 dropped, len(selection))
+        blocks = 0
         if BLOCK not in filterByTypes:
             blocks = len([b for b in selection if rs.ObjectType(b) == BLOCK])
             if blocks:
@@ -702,7 +703,11 @@ def GetBreps(filterByTypes=None):
                                 Rhyton.SETTINGS_LABELS[Rhyton.INCLUDE_BLOCKS_NAME],
                                 Rhyton.YES))
 
-        SelectionWindow.showWarning(message)
+        # only interrupt when the user can act on it
+        if blocks or not breps:
+            SelectionWindow.showWarning(message)
+        else:
+            print(message)
 
     return breps
 

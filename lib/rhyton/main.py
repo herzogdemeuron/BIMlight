@@ -103,7 +103,7 @@ class Rhyton(object):
             bool: True if blocks should be included.
         """
         return self.isYes(
-                self.settings.get(self.INCLUDE_BLOCKS_NAME, self.YES))
+                self.settings.get(self.INCLUDE_BLOCKS_NAME, self.NO))
 
 
     def __init__(self, extensionName=None):
@@ -161,7 +161,7 @@ class Rhyton(object):
         config = dict()
         config[self.ROUNDING_DECIMALS_NAME] = self.ROUNDING_DECIMALS
         config[self.QUALITY_CHECK_NAME] = self.YES
-        config[self.INCLUDE_BLOCKS_NAME] = self.YES
+        config[self.INCLUDE_BLOCKS_NAME] = self.NO
         return config
     
     @property

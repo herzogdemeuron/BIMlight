@@ -42,7 +42,7 @@
 
 - **User text values are stored verbatim.** Earlier versions silently converted values to Title Case and replaced underscores with spaces on write. Existing values are not rewritten.
 - **Export can run a quality check.** Before exporting, BIMlight offers to recalculate areas and volumes and compare them against the stored values. Objects whose values differ are selected so you can inspect them, and you can always export anyway. Controlled by the `Ask QC before export` setting (`Yes` by default).
-- **Blocks can be included.** Block instances are treated as regular objects for visualisation, export and PowerBI. Controlled by the `Include blocks` setting (`Yes` by default). Area and volume calculations still skip blocks, because those values cannot be derived from a block instance.
+- **Blocks can be included.** Block instances are treated as regular objects for visualisation, export and PowerBI. Controlled by the `Include blocks` setting (`No` by default). Area and volume calculations always skip blocks, because those values cannot be derived from a block instance.
 - **Skipped objects are reported.** Selecting objects that a command cannot handle no longer fails silently; BIMlight says how many were skipped and why.
 
 ## Bundled dependencies

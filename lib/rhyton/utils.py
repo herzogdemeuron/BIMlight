@@ -3,6 +3,9 @@
 """
 Module for general utily functions.
 """
+# python standard imports
+import re
+
 # rhyton imports
 from rhyton.main import Rhyton
 
@@ -152,28 +155,28 @@ def removePrefix(string, prefix):
 
 def detectType(value):
     """
-    Tries to convert a given string to an integer, number or boolean.
-    If no conversion is possible, the original string is returned.
+    Tries to convert a given string to an integer or a number.
+    Text with a leading zero stays text, so identifiers such as layer names,
+    room numbers or cost codes keep the exact spelling they have in Rhino.
 
     Args:
         value (str): The string to convert.
     """
-    if value == None:
+    if value is None:
         return None
-    
+
+    text = str(value).strip()
+    if re.match(r'^[+-]?0\d', text):
+        return value
+
     try:
-        return int(value)
+        return int(text)
     except ValueError:
         pass
 
     try:
-        return float(value)
+        return float(text)
     except ValueError:
         pass
-
-    if value.lower() in ['true', 'yes', '1']:
-        return True
-    elif value.lower() in ['false', 'no', '0']:
-        return False
 
     return value

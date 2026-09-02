@@ -184,24 +184,28 @@ class Visualize:
             Group.dissolve(breps)
         elif resetAll == 'reset':
             rs.EnableRedraw(False)
-            data = DocumentConfigStorage().get(
-                    Rhyton().extensionOriginalColors, dict())
-            if not data:
-                rs.EnableRedraw(True)
-                SelectionWindow.showWarning(
-                        "No information about original colors available."
-                        " Select the elements and try again.")
-                return
+            try:
+                data = DocumentConfigStorage().get(
+                        Rhyton().extensionOriginalColors, dict())
+                guids = [guid for guid in data.keys() if rs.IsObject(guid)]
+                if guids:
+                    Group.dissolve(guids)
+                    ElementOverrides.clear(guids, clearSource=clearSource)
 
-            guids = data.keys()
-            # check if guids are still valid
-            guids = [guid for guid in guids if rs.IsObject(guid)]
-            Group.dissolve(guids)
-            ElementOverrides.clear(guids, clearSource=clearSource)
-            textDots = DocumentConfigStorage().get(
-                    Rhyton().extensionTextdots, dict()).keys()
-            rs.DeleteObjects(textDots)
-            DocumentConfigStorage().save(Rhyton().extensionTextdots, None)
+                textDots = DocumentConfigStorage().get(
+                        Rhyton().extensionTextdots, dict()).keys()
+                if textDots:
+                    rs.DeleteObjects(textDots)
+                    DocumentConfigStorage().save(
+                            Rhyton().extensionTextdots, None)
+            finally:
+                rs.EnableRedraw(True)
+
+            if not data and not textDots:
+                SelectionWindow.showWarning(
+                        "Nothing to reset. No information about original colors"
+                        " available, select the elements and try again.")
+            return
 
         rs.EnableRedraw(True)
     
