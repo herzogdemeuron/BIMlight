@@ -498,7 +498,11 @@ class ElementUserText:
         if value[:2] == "%<" and value[-2:] == ">%":
             obj = rs.coercerhinoobject(guid)
             value = Rhino.RhinoApp.ParseTextField(value, obj, None)
-        
+
+        # layer names are text by definition, never a number
+        if Rhyton.LAYER_HIERARCHY in key:
+            return value
+
         return detectType(value)
         
     @staticmethod
