@@ -3,6 +3,8 @@
 
 ## Installation Guide
 
+On HdM machines BIMlight is installed and kept up to date by **DT Update**. The steps below are only needed for a manual install.
+
 ### Prerequisites
 - Rhino installed
 - Git for cloning repositories
@@ -29,10 +31,9 @@
 
 ### Upgrading from a previous install
 
-The `rhyton` core library now lives in this repository under `lib\rhyton\` and is no longer installed separately. If you installed BIMlight before this change:
+The `rhyton` core library now lives in this repository under `lib\rhyton\` and is no longer installed separately. `install.py` removes the old `C:\HdM-DT\RhinoToolbarExtensions\rhyton` folder automatically on the next update.
 
-- **Remove** the old `C:\HdM-DT\RhinoToolbarExtensions\rhyton\lib\` entry from the Rhino Python search paths. If it is left in place it may shadow the bundled copy. BIMlight raises a clear error on startup when this happens.
-- The old `C:\HdM-DT\RhinoToolbarExtensions\rhyton` folder can be deleted.
+If you installed manually, delete that folder yourself. Leaving it in place means Rhino may load the old library instead of the bundled one; BIMlight raises a clear error on startup when that happens. A leftover search path entry pointing at the deleted folder is harmless.
 
 ### Update
 - To update, pull the latest changes from this repository into  
