@@ -2,6 +2,8 @@
 Base module for the rthyton package.
 """
 
+import os
+
 class Rhyton(object):
     """
     Base class to provide a shared data environment between sub-classes.
@@ -53,6 +55,8 @@ class Rhyton(object):
     LAYER_HIERARCHY = 'layer_hierarchy'
     EXPORT_CHECKBOXES = 'exportCheckboxes'
     HDM_DT_DIR = 'C:/HdM-DT'
+    REPO_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    DATA_DIR = os.path.join(REPO_DIR, 'data')
 
     # Extension settings
     KEY_PREFIX_NAME = 'key_prefix'

@@ -29,7 +29,7 @@ class ExportBase:
         """
         if not file:
             now = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            file = '{}/{}.{}'.format(Rhyton.HDM_DT_DIR, now, extension.lower())
+            file = os.path.join(Rhyton.DATA_DIR, '{}.{}'.format(now, extension.lower()))
 
         directory = os.path.dirname(file)
         if not os.path.exists(directory):
