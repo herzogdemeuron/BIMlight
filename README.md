@@ -57,11 +57,11 @@ If you installed manually, delete that folder yourself. Leaving it in place mean
 
 ## History
 
-BIMlight began as part of the internal HdM Rhino toolbar. It was extracted into this repository and open sourced on GitHub in 2023, so **the commit history of this repository starts there** — everything before that was developed internally and is recorded below.
+BIMlight began as part of the internal HdM Rhino toolbar, developed in close collaboration between DT and project teams. It was extracted into this repository in 2023, so **the commit history of this repository starts there** — everything before that was developed internally and is recorded below.
 
 | Year | Milestone | Contributors |
 | --- | --- | --- |
-| 2020 | Concept and first release | [@julianKD](https://github.com/julianKD) |
-| 2021–2022 | Feature development and refinement | [@yschindel](https://github.com/yschindel), [@julianKD](https://github.com/julianKD) |
-| 2023 | Rewritten on a new reusable core library, `rhyton`, and open sourced on GitHub | [@yschindel](https://github.com/yschindel) |
+| 2020 | Initial concept and first release | [@julianKD](https://github.com/julianKD) |
+| 2021–2022 | Feature development and refinement | [@yschindel](https://github.com/yschindel) and [@julianKD](https://github.com/julianKD) |
+| 2023 | Rewritten on a new reusable core library, `rhyton` | [@yschindel](https://github.com/yschindel) |
 
