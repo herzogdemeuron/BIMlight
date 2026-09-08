@@ -39,7 +39,7 @@ If you installed manually, confirm the bundled files are present and remove the 
 
 ### Export files
 
-Default CSV/JSON exports are written to the ignored `data\` folder in this repository, created when needed. Power BI uses `data\powerbi.json`. Explicit export destinations are unchanged; existing output files are not moved.
+Default CSV/JSON exports are written to `C:\temp\BIMlight\`, created when needed. Power BI uses `C:\temp\BIMlight\powerbi.json`. The folder sits outside the repository so reinstalling BIMlight cannot delete it. Explicit export destinations are unchanged; existing output files are not moved.
 
 The bundled Power BI templates still require manual source-query verification for the new data location before deployment. See [the template checklist](powerbi-templates/README.md).
 
@@ -63,7 +63,6 @@ The bundled Power BI templates still require manual source-query verification fo
 | `lib\rhyton\` | The core library: object user text, document storage, colours, visualisation, export. |
 | `toolbar\` | The Rhino toolbars and the script each button runs. |
 | `powerbi-templates\` | Bundled Power BI report templates. |
-| `data\` | Generated CSV/JSON exports and Power BI data; ignored by Git. |
 
 ## History
 

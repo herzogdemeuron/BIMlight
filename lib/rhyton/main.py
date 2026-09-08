@@ -56,7 +56,8 @@ class Rhyton(object):
     EXPORT_CHECKBOXES = 'exportCheckboxes'
     HDM_DT_DIR = 'C:/HdM-DT'
     REPO_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    DATA_DIR = os.path.join(REPO_DIR, 'data')
+    # outside the repository, so re-cloning BIMlight cannot delete exported data
+    DATA_DIR = 'C:/temp/BIMlight'
 
     # Extension settings
     KEY_PREFIX_NAME = 'key_prefix'

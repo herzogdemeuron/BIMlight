@@ -116,13 +116,11 @@ class JsonExporter(ExportBase):
         Returns:
             str: The file path.
         """
+        if not os.path.exists(file):
+            JsonExporter.write([], file=file)
+
         with open(file, 'r') as f:
             existingData = json.load(f)
-        if existingData:
-            existingData = existingData + data
-            with open(file, 'w') as f:
-                f.write(json.dumps(
-                        existingData, encoding="utf-8", ensure_ascii=False))
 
-        return file
+        return JsonExporter.write(existingData + data, file=file)
     
