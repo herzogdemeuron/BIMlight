@@ -555,7 +555,8 @@ class Powerbi:
     CUSTOM_TEMPLATE = "Load Custom Template"
     POWERBI_TEMPLATE = '.template'
     POWERBI_DATAFILE = os.path.join(Rhyton.DATA_DIR, 'powerbi.json')
-    POWERBI_TEMPLATES_DIR = os.path.join(Rhyton.REPO_DIR, 'powerbi-templates')
+    # installed separately by DT Update, licensing keeps them off this repo
+    POWERBI_TEMPLATES_DIR = Rhyton.HDM_DT_DIR + '/RhinoToolbarExtensions/powerbi-templates'
     POWERBI_TEMPLATES_EXTENSION = '.pbit'
     TIMESTAMP = "timestamp"
     # fixed keys are necessary to ensure the powerbi visuals do not break

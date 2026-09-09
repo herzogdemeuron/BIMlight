@@ -31,7 +31,7 @@ On HdM machines BIMlight is installed and kept up to date by **DT Update**. The 
 
 ### Upgrading from a previous install
 
-The `rhyton` core library and Power BI templates now live in this repository under `lib\rhyton\` and `powerbi-templates\`. The updated **DT Update** routine removes the old standalone `rhyton` and `powerbi-templates` folders under `C:\HdM-DT\RhinoToolbarExtensions\` after a successful BIMlight update, once the bundled files are present.
+The `rhyton` core library now lives in this repository under `lib\rhyton\`. The updated **DT Update** routine removes the old standalone `rhyton` folder under `C:\HdM-DT\RhinoToolbarExtensions\` after a successful BIMlight update, once the bundled files are present. The Power BI templates are not part of this repository; **DT Update** installs them separately to `C:\HdM-DT\RhinoToolbarExtensions\powerbi-templates\`.
 
 Close Rhino before updating so it does not keep the old library loaded in memory. The existing BIMlight Python search path remains valid.
 
@@ -41,7 +41,7 @@ If you installed manually, confirm the bundled files are present and remove the 
 
 Default CSV/JSON exports are written to `C:\temp\BIMlight\`, created when needed. Power BI uses `C:\temp\BIMlight\powerbi.json`. The folder sits outside the repository so reinstalling BIMlight cannot delete it. Explicit export destinations are unchanged; existing output files are not moved.
 
-The bundled Power BI templates still require manual source-query verification for the new data location before deployment. See [the template checklist](powerbi-templates/README.md).
+The Power BI templates are maintained in the internal `DT/RHP/powerbi-templates` repository and read `C:\temp\BIMlight\powerbi.json`. Update their source queries there.
 
 ### Update
 - To update, pull the latest changes from this repository into  
@@ -62,7 +62,6 @@ The bundled Power BI templates still require manual source-query verification fo
 | `lib\bimlight\` | The BIM specific commands: calculations, quality check, logging. |
 | `lib\rhyton\` | The core library: object user text, document storage, colours, visualisation, export. |
 | `toolbar\` | The Rhino toolbars and the script each button runs. |
-| `powerbi-templates\` | Bundled Power BI report templates. |
 
 ## History
 
