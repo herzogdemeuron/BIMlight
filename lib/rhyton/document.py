@@ -691,14 +691,17 @@ def GetBreps(filterByTypes=None):
     if not selection:
         return None
 
-    breps = [str(b) for b in selection if rs.ObjectType(b) in filterByTypes]
+    objectTypes = [(guid, rs.ObjectType(guid)) for guid in selection
+                   if rs.IsObject(guid)]
+    breps = [str(guid) for guid, objectType in objectTypes
+             if objectType in filterByTypes]
     dropped = len(selection) - len(breps)
     if dropped:
-        message = "{0} of {1} selected objects are not supported and were skipped.".format(
+        message = "{0} of {1} selected objects are missing or not supported and were skipped.".format(
                 dropped, len(selection))
         blocks = 0
         if BLOCK not in filterByTypes:
-            blocks = len([b for b in selection if rs.ObjectType(b) == BLOCK])
+            blocks = sum(1 for guid, objectType in objectTypes if objectType == BLOCK)
             if blocks:
                 message += (
                         "\n\n{0} of them are blocks."
