@@ -149,7 +149,7 @@ def _applyCalculation(key, objectTypes, requirement):
     """
     Runs the calculation registered for given key over the current selection
     and writes the results to the user text of the objects it could handle.
-    Objects that could not be calculated are selected afterwards.
+    Leaves the calculated objects selected, or the failed ones if there are any.
 
     Args:
         key (str): The user text key to write.
@@ -167,6 +167,7 @@ def _applyCalculation(key, objectTypes, requirement):
 
     calculate = CALCULATIONS[key]
     data = []
+    calculated = []
     failed = []
 
     rs.EnableRedraw(False)
@@ -177,12 +178,15 @@ def _applyCalculation(key, objectTypes, requirement):
                 if value is None:
                     failed.append(guid)
                 else:
+                    calculated.append(guid)
                     data.append({rhyton.Rhyton.GUID: guid, key: value})
 
                 bar.update()
 
         rhyton.ElementUserText.apply(data)
         rs.UnselectAllObjects()
+        # apply() strips the guid from every entry in 'data'
+        rs.SelectObjects(failed if failed else calculated)
     finally:
         rs.EnableRedraw(True)
 
@@ -191,7 +195,6 @@ def _applyCalculation(key, objectTypes, requirement):
         print("{0} object(s) skipped. {1}".format(skipped, requirement))
 
     if failed:
-        rs.SelectObjects(failed)
         rhyton.SelectionWindow.showWarning(
                 "{0} object(s) could not be calculated and are now selected.\n"
                 "This is usually caused by invalid or open geometry.".format(
