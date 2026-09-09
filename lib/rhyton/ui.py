@@ -555,8 +555,11 @@ class Powerbi:
     CUSTOM_TEMPLATE = "Load Custom Template"
     POWERBI_TEMPLATE = '.template'
     POWERBI_DATAFILE = os.path.join(Rhyton.DATA_DIR, 'powerbi.json')
-    # installed separately by DT Update, licensing keeps them off this repo
-    POWERBI_TEMPLATES_DIR = Rhyton.HDM_DT_DIR + '/RhinoToolbarExtensions/powerbi-templates'
+    # the HdM templates are installed separately, licensing keeps them off this repo
+    POWERBI_TEMPLATE_SOURCES = (
+            ('BIMlight', os.path.join(Rhyton.REPO_DIR, 'powerbi-templates')),
+            ('HdM', Rhyton.HDM_DT_DIR + '/RhinoToolbarExtensions/powerbi-templates'),
+            )
     POWERBI_TEMPLATES_EXTENSION = '.pbit'
     TIMESTAMP = "timestamp"
     # fixed keys are necessary to ensure the powerbi visuals do not break
@@ -608,6 +611,9 @@ class Powerbi:
         
             vizKey = SelectionWindow.show(
                     allKeys, message="Select Parameter to Visualize:")
+            if not vizKey:
+                return
+
             config[cls.VIZ_KEY] = vizKey
             fixedKeys = cls.fixedKeys()
             fixedKeys.append(vizKey)
@@ -664,18 +670,27 @@ class Powerbi:
     def _pickTemplate(cls):
         """
         This method is used to pick a PowerBI template.
-        It checks if the PowerBI template directory exists. If not, it is created.
-        It then searches for all files with the extension ``.pbit`` and adds them
-        to a list of templates. The user is then asked to select a template.
+        It collects the ``.pbit`` files from every known template location,
+        skipping the ones that are not installed or hold no templates.
+        The user is then asked to select a template.
         The seleceted templates is returned.
-        """   
-        if not os.path.exists(cls.POWERBI_TEMPLATES_DIR):
-            os.makedirs(cls.POWERBI_TEMPLATES_DIR)
+        """
+        options = dict()
+        for label, directory in cls.POWERBI_TEMPLATE_SOURCES:
+            if not os.path.isdir(directory):
+                continue
 
-        files = cls.absoluteFilePaths(cls.POWERBI_TEMPLATES_DIR)
-        templates = [os.path.abspath(f) for f in files if f.endswith(cls.POWERBI_TEMPLATES_EXTENSION)]
-        templateNames = [os.path.basename(t).replace(cls.POWERBI_TEMPLATES_EXTENSION, '') for t in templates]
-        options = dict((k, v) for k, v in zip(templateNames, templates))
+            for path in cls.absoluteFilePaths(directory):
+                if not path.endswith(cls.POWERBI_TEMPLATES_EXTENSION):
+                    continue
+
+                name = os.path.basename(path)[:-len(cls.POWERBI_TEMPLATES_EXTENSION)]
+                # both locations may ship the same file name
+                if name in options:
+                    name = '{0} ({1})'.format(name, label)
+
+                options[name] = os.path.abspath(path)
+
         options[cls.CUSTOM_TEMPLATE] = cls.CUSTOM_TEMPLATE
         return SelectionWindow.show(options, message="Pick PowerBI Template:")
 
