@@ -31,15 +31,11 @@ On HdM machines BIMlight is installed and kept up to date by **DT Update**. The 
 
 ### Upgrading from a previous install
 
-The `rhyton` core library now lives in this repository under `lib\rhyton\`. The updated **DT Update** routine removes the old standalone `rhyton` folder under `C:\HdM-DT\RhinoToolbarExtensions\` after a successful BIMlight update, once the bundled files are present. A generic Power BI template ships in `powerbi-templates\`; **DT Update** additionally installs the HdM internal templates to `C:\HdM-DT\RhinoToolbarExtensions\powerbi-templates\`.
-
-Close Rhino before updating so it does not keep the old library loaded in memory. The existing BIMlight Python search path remains valid.
-
-If you installed manually, confirm the bundled files are present and remove the old standalone folders yourself. Leaving the old `rhyton` folder in place means Rhino may load it instead of the bundled library; BIMlight raises a clear error when that happens. A leftover search path entry pointing at the deleted folder is harmless.
+The `rhyton` core library is bundled in this repository under `lib\rhyton\`. If an older standalone `rhyton` folder still sits under `C:\HdM-DT\RhinoToolbarExtensions\`, Rhino may load it instead of the bundled library; BIMlight raises a clear error when that happens, so remove the old folder. **DT Update** does this automatically. Close Rhino before updating so it does not keep the old library loaded in memory. The existing BIMlight Python search path remains valid.
 
 ### Export files
 
-Default CSV/JSON exports are written to `C:\temp\BIMlight\`, created when needed. Power BI uses `C:\temp\BIMlight\powerbi.json`. The folder sits outside the repository so reinstalling BIMlight cannot delete it. Explicit export destinations are unchanged; existing output files are not moved.
+Default CSV/JSON exports are written to `C:\temp\BIMlight\`, created when needed. Power BI uses `C:\temp\BIMlight\powerbi.json`. The folder sits outside the repository so reinstalling BIMlight cannot delete it.
 
 **Start Power BI** offers the templates from both locations in one list: the generic template bundled in `powerbi-templates\`, and the HdM internal templates from `C:\HdM-DT\RhinoToolbarExtensions\powerbi-templates\`. Either location is skipped without a warning when it is not installed or holds no templates, so the command works with one, both or neither. All templates read `C:\temp\BIMlight\powerbi.json`.
 
@@ -47,13 +43,13 @@ Default CSV/JSON exports are written to `C:\temp\BIMlight\`, created when needed
 - To update, pull the latest changes from this repository into  
   `C:\HdM-DT\RhinoToolbarExtensions\BIMlight`.
 
-### Behaviour changes
+## Behaviour
 
-- **User text values are stored verbatim.** Earlier versions silently converted values to Title Case and replaced underscores with spaces on write. Existing values are not rewritten.
-- **Layer names are exported exactly as they are in Rhino.** Nothing is reformatted, and layer names are never interpreted as numbers, so `01` stays `01`. Other user text that looks like a number is still read as one so it can be summed, but values with a leading zero (`007`) keep their spelling.
+- **User text values are stored verbatim.** No reformatting is applied on write.
+- **Layer names are exported exactly as they are in Rhino** and are never interpreted as numbers, so `01` stays `01`. Other user text that looks like a number is read as one so it can be summed, but values with a leading zero (`007`) keep their spelling.
 - **Export can run a quality check.** Before exporting, BIMlight offers to recalculate areas and volumes and compare them against the stored values. Objects whose values differ are selected so you can inspect them, and you can always export anyway. Controlled by the `Ask QC before export` setting (`Yes` by default).
-- **Blocks can be included.** Block instances are treated as regular objects for visualisation, export and PowerBI. Controlled by the `Include blocks` setting (`No` by default). Area and volume calculations always skip blocks, because those values cannot be derived from a block instance.
-- **Skipped objects are reported.** Selecting objects that a command cannot handle no longer fails silently; BIMlight says how many were skipped and why.
+- **Blocks can be included.** Block instances are treated as regular objects for visualisation, export and Power BI. Controlled by the `Include blocks` setting (`No` by default). Area and volume calculations always skip blocks, because those values cannot be derived from a block instance.
+- **Skipped objects are reported.** Selecting objects that a command cannot handle does not fail silently; BIMlight says how many were skipped and why.
 
 ## Structure
 
